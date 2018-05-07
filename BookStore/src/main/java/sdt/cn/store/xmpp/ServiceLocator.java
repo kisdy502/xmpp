@@ -18,6 +18,7 @@
 package sdt.cn.store.xmpp;
 
 import sdt.cn.store.service.NotificationService;
+import sdt.cn.store.service.UserService;
 
 /** 
  * This is a helper class to look up service objects.
@@ -46,5 +47,9 @@ public class ServiceLocator {
 	 */
 	public static NotificationService getNotificationService(){
 		return (NotificationService)Xmpp.getInstance().getBean(NOTIFICATION_SERVICE);
+	}
+	
+	public static UserService getUserService(){
+		return (UserService)Xmpp.getInstance().getBean(USER_SERVICE);
 	}
 }
