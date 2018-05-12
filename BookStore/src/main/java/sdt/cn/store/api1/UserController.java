@@ -24,8 +24,6 @@ public class UserController {
 		super();
 		notificationService=ServiceLocator.getNotificationService();
 		userService=ServiceLocator.getUserService();
-		System.out.println("NotificationService is null:"+(notificationService==null));
-		System.out.println("UserService is null:"+(userService==null));
 	}
 
 	@RequestMapping("/index")  

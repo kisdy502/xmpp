@@ -12,18 +12,16 @@ public class Xmpp {
 
 	private ApplicationContext context;
 
-	private static Xmpp instance;
+	private String serverName;
 
 	public static Xmpp getInstance(){
-		if(instance==null) {
-			instance=new Xmpp();
-		}
-		return instance;
+		return XmppHolder.instance;
 	}
 
 	public Xmpp(){
 		System.out.println("xmpp init");
 		log.debug("xmpp init");
+		serverName="127.0.0.1";
 		start();
 	}
 
@@ -41,4 +39,10 @@ public class Xmpp {
 	public Object getBean(String beanName) {
 		return context.getBean(beanName);
 	}
+
+	public String getServerName() {
+		return serverName;
+	}
+
+
 }
