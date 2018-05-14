@@ -1,16 +1,45 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-configuration PUBLIC
-        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
 <hibernate-configuration>
 	<session-factory>
-		<!-- 配置Hibernate的基本属性 -->
-		<!-- 1.数据源配置到IOC容器中 -->
-		<!-- 2.关联的.hbm.xml也在IOC容器配置SessionFactory实例 -->
-		<!-- 3.配置Hibernate的基本属性：方言，SQL显示及格式化，生成数据表的策略以及二级缓存 -->
-		<property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
+		<!-- Database connection settings -->
+		<property name="hibernate.connection.driver_class">${jdbc.driverClassName}</property>
+		<property name="hibernate.connection.url">${jdbc.url}</property>
+		<property name="hibernate.connection.username">${jdbc.username}</property>
+		<property name="hibernate.connection.password">${jdbc.password}</property>
+
+		<!-- SQL dialect -->
+		<property name="hibernate.dialect">${hibernate.dialect}</property>
+
+		<!-- Enable Hibernate's automatic session context management -->
+		<!--( jta | thread | managed | custom.Class )-->
+		<property name="hibernate.current_session_context_class">thread</property>
+
+		<!-- Second-level cache  -->
+		<!-- http://ehcache.sourceforge.net/documentation/hibernate.html -->
+		<property name="hibernate.cache.use_second_level_cache">true</property>
+		<property name="hibernate.cache.provider_class">net.sf.ehcache.hibernate.EhCacheProvider</property>
+
+		<!-- UTF-8 -->
+		<property name="hibernate.connection.useUnicode">true</property>
+		<property name="hibernate.connection.characterEncoding">utf-8</property>
+
+		<!-- Echo all executed SQL to stdout -->
 		<property name="hibernate.show_sql">true</property>
-		<property name="hbm2ddl.auto">update</property>
+		<property name="hibernate.format_sql">true</property>
+		<property name="hibernate.use_sql_comments">true</property>
+
+		<!-- Drop and re-create the database schema on startup -->
+		<!--( validate | update | create | create-drop )-->
+		<property name="hibernate.hbm2ddl.auto">update</property>
+		
+
+		<!-- Mapping Files -->
+		<mapping class="sdt.cn.store.bean.User" />
 		<mapping class="sdt.cn.store.bean.Notification"/>
+
 	</session-factory>
 </hibernate-configuration>
+
