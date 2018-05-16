@@ -8,33 +8,27 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import sdt.cn.store.bean.Notification;
 import sdt.cn.store.bean.User;
 import sdt.cn.store.service.NotificationService;
 import sdt.cn.store.service.UserService;
 import sdt.cn.store.xmpp.ServiceLocator;
+import sdt.cn.store.xmpp.presence.PresenceManager;
 @Controller  
 public class UserController {
 
 	private NotificationService notificationService;
 	private UserService userService;
+	final PresenceManager presenceManager;
 
 	public UserController() {
 		super();
 		notificationService=ServiceLocator.getNotificationService();
 		userService=ServiceLocator.getUserService();
+		presenceManager=PresenceManager.getInstance();
 	}
 
 	@RequestMapping("/index")  
-	public ModelAndView index(HttpServletRequest request, HttpServletResponse response) {  
-
-		List<Notification> list=notificationService.findNotificationsByUsername("admin");
-		if(list!=null){
-			System.out.println("size:"+list.size());
-		}else{
-			System.out.println("no notification!");
-		}		
+	public ModelAndView index(HttpServletRequest request, HttpServletResponse response) {  		
 		ModelAndView mav = new ModelAndView("index");  
 		return mav;  
 	}  
@@ -44,7 +38,9 @@ public class UserController {
 			HttpServletResponse response) throws Exception {
 		List<User> userList = userService.getUsers();
 		for (User user : userList) {
-			user.setOnline(true);
+			if(presenceManager.isAvailable(user)) {
+				user.setOnline(true);
+			}
 		}
 		if(userList!=null) {
 			System.out.println("size:"+userList.size());
